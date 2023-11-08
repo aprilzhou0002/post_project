@@ -19,8 +19,11 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
     const { title, link, description, subgroup } = req.body;
-    const creator = req.user?.id; 
-    const newPost = await db.addPost(title, link, creator, description, subgroup);
+    const creator = req.user?.id;
+    // const test = req.user((data)=>{console.log(data)}) 
+    // console.log(req.user);
+    const newPost = db.addPost(title, link, creator, description, subgroup.toLowerCase());
+    console.log(db.posts)
     res.redirect('/');
   } catch (error) {
     res.status(500).send(error.message);
@@ -45,7 +48,7 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
     const postid = req.params.postid;
-    const post = await db.getPost(postid);
+    const post = db.getPost(postid);
     if (!post) {
       return res.status(404).send('Post not found');
     }
