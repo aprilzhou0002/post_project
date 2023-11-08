@@ -9,6 +9,7 @@ const users: { [key: number]: Express.User } = {
     id: 2,
     uname: "theo",
     password: "123",
+    // aa:"11"
   },
   3: {
     id: 3,
