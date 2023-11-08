@@ -1,5 +1,5 @@
 // @ts-nocheck
-const users = {
+const users: { [key: number]: Express.User } = {
   1: {
     id: 1,
     uname: "alice",
@@ -22,7 +22,7 @@ const users = {
   },
 };
 
-const posts = {
+const posts: { [key: number]: Express.Post } = {
   101: {
     id: 101,
     title: "Mochido opens its new location in Coquitlam this week",
@@ -45,7 +45,7 @@ const posts = {
   },
 };
 
-const comments = {
+const comments: { [key: number]: Express.Comment } = {
   9001: {
     id: 9001,
     post_id: 102,
@@ -55,6 +55,7 @@ const comments = {
   },
 };
 
+// const votes: Array<{ user_id: number; post_id: number; value: number }> = [
 const votes = [
   { user_id: 2, post_id: 101, value: +1 },
   { user_id: 3, post_id: 101, value: +1 },
@@ -167,6 +168,10 @@ function addComment(post_id, creator, description) {
 }
 
 export {
+  users,
+  posts,
+  comments,
+  votes,
   debug,
   getUser,
   getUserByUsername,

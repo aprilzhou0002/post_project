@@ -1,9 +1,46 @@
 import express from "express";
 import session from "express-session";
 import passport from "./middleware/passport";
+
+declare global {
+  namespace Express {
+      interface User {
+          id: number;
+          uname: string;
+          password: string;       
+      }
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Post {
+      id: number;
+      title: string;
+      description: string;
+      creator: number;
+      subgroup: string;
+      timestamp: number;
+    }
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Comment {
+      id: number;
+      post_id: number;
+      creator: number;
+      description: string;
+      timestamp: number;
+    }
+  }
+}
+
 const PORT = process.env.PORT || 8000;
 
 const app = express();
+
 
 app.set("trust proxy", 1);
 app.set("view engine", "ejs");
