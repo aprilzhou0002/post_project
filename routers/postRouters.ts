@@ -18,13 +18,12 @@ router.get("/create", ensureAuthenticated, (req, res) => {
 router.post("/create", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
+    // April: using await for the resolution of the Promise and then extract the user details.
+    const user = await req.user;
     const { title, link, description, subgroup } = req.body;
-    const creator = req.user?.id;
-    // const test = req.user((data)=>{console.log(data)}) 
-    // console.log(req.user);
-    const newPost = db.addPost(title, link, creator, description, subgroup.toLowerCase());
-    console.log(db.posts)
-    res.redirect('/');
+    const creator = user.id;
+    const newPost = await db.addPost(title, link, creator, description, subgroup.toLowerCase());
+    res.redirect(`/posts/show/${newPost.id}`);
   } catch (error) {
     res.status(500).send(error.message);
   }
