@@ -1,6 +1,7 @@
 import express from "express";
 import session from "express-session";
 import passport from "./middleware/passport";
+import expressLayouts from "express-ejs-layouts";
 
 declare global {
   namespace Express {
@@ -41,9 +42,9 @@ const PORT = process.env.PORT || 8000;
 
 const app = express();
 
-
-app.set("trust proxy", 1);
 app.set("view engine", "ejs");
+app.set("trust proxy", 1);
+
 app.use(express.static("public"));
 app.use(
   session({
@@ -64,9 +65,16 @@ import postsRoute from "./routers/postRouters";
 import subsRouters from "./routers/subsRouters";
 
 app.use(express.json());
+app.use(expressLayouts);
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req,res,next)=>{
+  res.locals.user =req.user;
+  
+  next();
+});
 
 app.use("/auth", authRoute);
 app.use("/posts", postsRoute);
