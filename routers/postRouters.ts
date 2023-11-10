@@ -59,6 +59,7 @@ router.get("/show/:postid", async (req, res) => {
         comment.timestamp = timedate(comment.timestamp);
         return comment; // Return the updated comment
       });
+      console.log(updatedComments)
       res.render("individualPost", {
         post,
         time: timedate(post.timestamp),

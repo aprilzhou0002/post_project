@@ -25,7 +25,8 @@
       <td><%= comment.creator.uname %></td>
       <td><%= comment.timestamp %></td>
       <% if (user){%>
-      <% if (user.id==post.creator.id){%>
+       
+      <% if (user.id==post.creator.id||user.id==comment.creator.id){%>
       <td>
         <form action="/posts/show/<%=post.id%>/deletecomment" method="post">
           <input

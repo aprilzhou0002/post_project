@@ -15,6 +15,7 @@
     <main>
       <div class="authOptions">
         <h1>Reddit Copy</h1>
+        
         <div>
         <% if (home){%>
         <a role="button" href="/posts">Home</a>
@@ -23,11 +24,15 @@
         <% if (!user) { %>
         <a role="button" href="/auth/login">Login</a>
         <% } else { %>
+          
         <a role="button" href="/auth/logout">Logout</a>
         <% } %>
         <% } %>
       </div>
       </div>
+      <% if (user) { %>
+      <p><em><%=user.uname%></em></p>
+      <% } %>
         <div class="container"><%- body %></div>
   </body>
 </html>
