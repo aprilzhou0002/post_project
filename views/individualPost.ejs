@@ -12,9 +12,20 @@
   <h3><%= post.title %></h3>
   <a href="<%=post.link%>"><%= post.link %></a>
   <p><%= post.description %></p>
+  <% if (user && user.id === post.creator.id) { %>
+    <div class="post-actions">
+      <form action="/posts/edit/<%= post.id %>" method="get">
+        <button type="submit">Edit Post</button>
+      </form>
+      <form action="/posts/deleteconfirm/<%= post.id %>">
+        <button type="submit">Delete Post</button>
+      </form>
+    </div>
+  <% } %>
+
 
   <hr />
-  <p>Comments</p>
+  <h3>Comments</h3>
   <% if (comments){%>
   <table>
     <% comments.forEach(comment => { %>
