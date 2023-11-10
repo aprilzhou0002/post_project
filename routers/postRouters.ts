@@ -7,8 +7,8 @@ import { ensureAuthenticated } from "../middleware/checkAuth";
 
 router.get("/", async (req, res) => {
   const rawPosts = await database.getPosts(20);
-  // April: encapsulate the post data as the way declared in fake-db.decoratePost
-  //        so that we can access to creator, votes and comments
+  // encapsulate the post data as the way declared in fake-db.decoratePost
+  // so that we can access to creator, votes and comments
   const posts = rawPosts.map(db.decoratePost);
 
   const user = await req.user;
@@ -22,7 +22,7 @@ router.get("/create", ensureAuthenticated, (req, res) => {
 router.post("/create", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
-    // April: using await for the resolution of the Promise and then extract the user details.
+    // use await for the resolution of the Promise and then extract the user details.
     const user = await req.user;
     const { title, link, description, subgroup } = req.body;
     const creator = user.id;
@@ -98,16 +98,18 @@ router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   try {
     const postid = req.params.postid;
     const post = db.getPost(postid);
+    const user = await req.user; // to resolve the Promise user
     if (!post) {
       return res.status(404).send("Post not found");
     }
-    // Check if the logged-in user is the creator of the post
-    if (req.user.id !== post.creator.id) {
+
+    console.log(user)
+    if (user.id !== post.creator.id) {
       return res
         .status(403)
         .send("You do not have permission to edit this post");
     }
-    res.render("editPost", { post });
+    res.render("createPosts", { post, isEditMode: true });
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -119,7 +121,7 @@ router.post("/edit/:postid", ensureAuthenticated, async (req, res) => {
     const postid = req.params.postid;
     const changes = req.body;
     await db.editPost(postid, changes);
-    res.redirect(`/show/${postid}`);
+    res.redirect(`/posts/show/${postid}`);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -130,16 +132,17 @@ router.get("/deleteconfirm/:postid", ensureAuthenticated, async (req, res) => {
   try {
     const postid = req.params.postid;
     const post = await db.getPost(postid);
+    const user = await req.user;
     if (!post) {
       return res.status(404).send("Post not found");
     }
     // Check if the logged-in user is the creator of the post
-    if (req.user.id !== post.creator.id) {
+    if (user.id !== post.creator.id) {
       return res
         .status(403)
         .send("You do not have permission to delete this post");
     }
-    res.render("deleteConfirm", { post });
+    res.render("deleteConfirm", { post }); // here to modify
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -150,11 +153,12 @@ router.post("/delete/:postid", ensureAuthenticated, async (req, res) => {
   try {
     const postid = req.params.postid;
     const post = await db.getPost(postid);
+    const user = await req.user;
     if (!post) {
       return res.status(404).send("Post not found");
     }
     // Check if the logged-in user is the creator of the post
-    if (req.user.id !== post.creator.id) {
+    if (user.id !== post.creator.id) {
       return res
         .status(403)
         .send("You do not have permission to delete this post");

@@ -1,0 +1,13 @@
+<div class="container">
+    <h1>Are you sure you want to delete this post?</h1>
+    <p>Title: <%= post.title %></p>
+    <p>Author: <%= post.creator.uname %></p>
+
+    <form action="/posts/delete/<%= post.id %>" method="post">
+      <button type="submit" class="danger">Yes, Delete It</button>
+    </form>
+
+    <a href="/posts/show/<%= post.id %>">
+      <button>No, Go Back</button>
+    </a>
+</div>
