@@ -2,24 +2,25 @@
       <h2>Welcome, <%= user?.uname || "Visitor" %></h2>
       <div>
         <p>All Posts</p>
+        <hr>
+        <hr>
         <% posts.forEach(post => { %>
         <div class="individualPost">
           <a href="/posts/show/<%=post.id%>"><%= post.title %></a>
-          <p><%= post.description %></p>
-          <p>Posted by: <%= post.creator.uname %></p>
+          <p><%= post.description %><br>Posted by: <%= post.creator.uname %></p>
+          <hr>
         </div>
         <% }) %>
       </div>
-
+      <hr>
       <div>
         <a href="/subs/list">Subgroups</a>
       </div>
-
+      <br>
+      <% if (user){%>
       <div>
         <a role="button" href="/posts/create">Create Post</a>
       </div>
-      <p style="color: rgb(197, 172, 172)">
-        😦 Heads up...you probably want to hide the Create Post button above for
-        non-logged-in users!
-      </p>
+      <% } %>
+      
     

@@ -1,9 +1,50 @@
+<div class="authOptions">
+  <h2>View Post</h2>
+</div>
+<hr />
+<hr />
+<div>
+  <p>Author:- <%= post.creator.uname %></p>
+  <p><%= time%></p>
+  <p>Group:-  <a href="/subs/show/<%=post.subgroup%>"><%=post.subgroup%></a></p>
+ 
+  <hr />
+  <h3><%= post.title %></h3>
+  <a href="<%=post.link%>"><%= post.link %></a>
+  <p><%= post.description %></p>
 
-      <div class="authOptions">
-        <h1>View Post</h1>
-        <a role="button" href="/posts">Home</a>
-      </div>
-      <div>
-        <p>Implement this page yourself. It is from individualPost.ejs</p>
-      </div>
-   
+  <hr />
+  <p>Comments</p>
+  <% if (comments){%>
+  <table>
+    <% comments.forEach(comment => { %>
+    <tr>
+      <%= comment.description %>
+    </tr>
+    <tr>
+      <td><%= comment.creator.uname %></td>
+      <td><%= comment.timestamp %></td>
+      <% if (user){%>
+      <% if (user.id==post.creator.id){%>
+      <td>
+        <form action="/posts/show/<%=post.id%>/deletecomment" method="post">
+          <input
+            name="commentid"
+            id="commentid"
+            hidden
+            value="<%= comment.id %>"
+          />
+          <button type="submit">Delete</button>
+        </form>
+
+        <% } %>
+        <% } %>
+      </td>
+    </tr>
+
+    <% }) %>
+  </table>
+  <% } else { %>
+  <p>No comments. Be first to Comment</p>
+  <% } %>
+</div>

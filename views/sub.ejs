@@ -1,9 +1,19 @@
 
       <div class="authOptions">
         <h1>Sub Posts</h1>
-        <a role="button" href="/posts">Home</a>
+      
       </div>
-      <div>
-        <p>Implement this page yourself. It is from sub.ejs</p>
-      </div>
+      <hr><hr>
+        <div>
+         
+          <% posts.forEach(post => { %>
+            <div class="individualPost">
+              <a href="/posts/show/<%=post.id%>"><%= post.title %></a>
+              <p><%= post.description %><br>Posted by: <%= post.creator.uname %></p>
+              <hr>
+            </div>
+          <% }) %>
+        </div>
+        <hr>
+    
   

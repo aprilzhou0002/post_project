@@ -14,13 +14,19 @@
   <body>
     <main>
       <div class="authOptions">
-        <a href="/posts"><h1>Homepage</h1></a>
-
+        <h1>Reddit Copy</h1>
+        <div>
+        <% if (home){%>
+        <a role="button" href="/posts">Home</a>
+        <% } %>
+        <% if (logged){%>
         <% if (!user) { %>
         <a role="button" href="/auth/login">Login</a>
         <% } else { %>
         <a role="button" href="/auth/logout">Logout</a>
         <% } %>
+        <% } %>
+      </div>
       </div>
         <div class="container"><%- body %></div>
   </body>

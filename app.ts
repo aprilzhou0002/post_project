@@ -72,7 +72,8 @@ app.use(passport.session());
 
 app.use((req,res,next)=>{
   res.locals.user =req.user;
-  
+  res.locals.logged =true;
+  res.locals.home =true;
   next();
 });
 

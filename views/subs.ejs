@@ -1,9 +1,16 @@
+<div class="authOptions">
+  <h1>Sub Groups</h1>
+</div>
+<hr><hr>
+<div class="individualSub">
+  <ul>
+    <% subs.forEach(sub => { %>
 
-      <div class="authOptions">
-        <h1>Sub Groups</h1>
-        <a role="button" href="/posts">Home</a>
-      </div>
-      <div>
-        <p>Implement this page yourself. It is from subs.ejs</p>
-      </div>
-    
+    <li>
+      <a href="/subs/show/<%=sub%>"><%= sub %></a>
+    </li>
+
+    <% }) %>
+  </ul>
+  <hr>
+</div>
