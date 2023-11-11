@@ -74,6 +74,8 @@ app.use((req,res,next)=>{
   res.locals.user =req.user;
   res.locals.logged =true;
   res.locals.home =true;
+  res.locals.subgroup =true;
+  res.locals.create =true;
   next();
 });
 

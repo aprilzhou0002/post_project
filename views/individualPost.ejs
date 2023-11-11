@@ -25,7 +25,7 @@
 
 
   <hr />
-  <h3>Comments</h3>
+  <h3>Comments  <% if (comments){%><%=comments.length%><% } %></h3>
   <% if (user){%>
     <form action="/posts/comment-create/<%=post.id%>" method="post">
       <input
@@ -36,20 +36,25 @@
     />
     
       <textarea rows="4" cols="50" name="commentbox"></textarea>
-      <button type="submit">post</button>
+      <button type="submit" style="float: right; width: 150px; margin-right: 19px;">post</button>
     </form>
     <% } %>
 
   <% if (comments){%>
-  <table>
+  
     <% comments.forEach(comment => { %>
+      <table>
     <tr>
-      <td>
-      <%= comment.description %></td>
-    </tr>
-    <tr>
+      
       <td><%= comment.creator.uname %></td>
+      
+    </tr>
+    <tr><td> <%= comment.description %></td></td></tr>
+    <tr>
+      
+       
       <td><%= comment.timestamp %></td>
+      
       <% if (user){%>
        
       <% if (user.id==post.creator.id||user.id==comment.creator.id){%>
@@ -61,19 +66,17 @@
             hidden
             value="<%= comment.id %>"
           />
-          <button type="submit">Delete</button>
+          <button type="submit" style="float: right; width: 150px;">Delete</button>
         </form>
 
         <% } %>
         <% } %>
       </td>
-      
     </tr>
-   
+  </table>
 
     <% }) %>
-    <hr>
-  </table>
+   
   <% } else { %>
   <p>No comments. Be first to Comment</p>
   <% } %>

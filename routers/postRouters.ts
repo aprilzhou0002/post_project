@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/create", ensureAuthenticated, (req, res) => {
-  res.render("createPosts");
+  res.render("createPosts",{isEditMode:false,create:false});
 });
 
 router.post("/create", ensureAuthenticated, async (req, res) => {
@@ -59,7 +59,7 @@ router.get("/show/:postid", async (req, res) => {
         comment.timestamp = timedate(comment.timestamp);
         return comment; // Return the updated comment
       });
-      console.log(updatedComments)
+      // console.log(updatedComments)
       res.render("individualPost", {
         post,
         time: timedate(post.timestamp),

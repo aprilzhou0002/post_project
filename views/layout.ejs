@@ -20,11 +20,16 @@
         <% if (home){%>
         <a role="button" href="/posts">Home</a>
         <% } %>
+        <% if (subgroup){%>
+        <a role="button" href="/subs/list">Subgroups</a>
+        <% } %>
         <% if (logged){%>
         <% if (!user) { %>
         <a role="button" href="/auth/login">Login</a>
         <% } else { %>
-          
+          <% if (create){%>
+        <a role="button" href="/posts/create">Create Post</a>  
+        <% } %>
         <a role="button" href="/auth/logout">Logout</a>
         <% } %>
         <% } %>

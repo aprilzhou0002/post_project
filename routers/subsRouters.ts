@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/list", async (req, res) => {
   
   let subs= db.getSubs() 
-  res.render("subs", {subs:subs.sort()});
+  res.render("subs", {subs:subs.sort(),subgroup:false});
   
 });
 
