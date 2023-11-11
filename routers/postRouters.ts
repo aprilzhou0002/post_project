@@ -93,6 +93,9 @@ router.post("/show/:postid/deletecomment", (req, res) => {
   // console.log(db.comments)
 });
 
+
+
+
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
@@ -177,10 +180,11 @@ router.post(
     // ⭐ TODO
     try {
       const postid = req.params.postid;
-      const { description } = req.body;
-      const creator = req.user.id;
-      await db.addComment(postid, creator, description);
-      res.redirect(`/show/${postid}`);
+      const { commentbox, creatorid } = req.body;
+     
+      await db.addComment(postid, creatorid, commentbox);
+      // console.log(db.comments)
+      res.redirect(`/posts/show/${postid}`);
     } catch (error) {
       res.status(500).send(error.message);
     }

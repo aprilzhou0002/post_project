@@ -26,11 +26,26 @@
 
   <hr />
   <h3>Comments</h3>
+  <% if (user){%>
+    <form action="/posts/comment-create/<%=post.id%>" method="post">
+      <input
+      name="creatorid"
+      id="creatorid"
+      hidden
+      value="<%= user.id %>"
+    />
+    
+      <textarea rows="4" cols="50" name="commentbox"></textarea>
+      <button type="submit">post</button>
+    </form>
+    <% } %>
+
   <% if (comments){%>
   <table>
     <% comments.forEach(comment => { %>
     <tr>
-      <%= comment.description %>
+      <td>
+      <%= comment.description %></td>
     </tr>
     <tr>
       <td><%= comment.creator.uname %></td>
@@ -52,11 +67,16 @@
         <% } %>
         <% } %>
       </td>
+      
     </tr>
+   
 
     <% }) %>
+    <hr>
   </table>
   <% } else { %>
   <p>No comments. Be first to Comment</p>
   <% } %>
+
+ 
 </div>
