@@ -3,8 +3,60 @@
   justify-content: space-between;
   align-items: flex-start;
 }
+.authOptions a{
+  width:100px;
+  height: 28px;
+  padding: 0px;
+  font-size: 15px;
+}
+
 
 .danger {
   background-color: red;
   color: white;
 }
+
+#commentbox{
+  width: 91%;
+  height:50px
+
+}
+
+.postdetails p{
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+
+
+.indvpost form{
+  margin-bottom: 0px;
+}
+.indvpost h3{
+  font-size: 30px;
+  margin-bottom: 0px;
+}
+
+.indvpost h4{
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.indvpost .comments td{
+  font-size: 15px;
+  border-bottom: 0px;
+  padding: 0px;
+
+  
+}
+
+.indvpost .commenttable{
+  margin-bottom: 0px;}
+
+.indvpost .comments button{
+  float: right;
+  width:58px;
+  height: 28px;
+  padding: 0px;
+  font-size: 15px;
+}
+

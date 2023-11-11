@@ -1,13 +1,14 @@
-<div class="authOptions">
-  <h2>View Post</h2>
+<div class="indvpost"><div class="authOptions">
+  <h2 style="font-size: 25px; margin-bottom: 0px;">View Post</h2>
 </div>
 <hr />
 <hr />
 <div>
-  <p>Author:- <%= post.creator.uname %></p>
-  <p><%= time%></p>
-  <p>Group:-  <a href="/subs/show/<%=post.subgroup%>"><%=post.subgroup%></a></p>
- 
+  <div class="postdetails">
+    <p>Author:- <%= post.creator.uname %></p>
+    <p><%= time%></p>
+    <p>Group:-  <a href="/subs/show/<%=post.subgroup%>"><%=post.subgroup%></a></p>
+  </div>
   <hr />
   <h3><%= post.title %></h3>
   <a href="<%=post.link%>"><%= post.link %></a>
@@ -25,61 +26,64 @@
 
 
   <hr />
-  <h3>Comments  <% if (comments){%><%=comments.length%><% } %></h3>
-  <% if (user){%>
-    <form action="/posts/comment-create/<%=post.id%>" method="post">
-      <input
-      name="creatorid"
-      id="creatorid"
-      hidden
-      value="<%= user.id %>"
-    />
+  <div class="comments">
+    <h4>Comments  <% if (comments){%><%=comments.length%><% } %></h4>
+    <% if (user){%>
+      <form action="/posts/comment-create/<%=post.id%>" method="post">
+        <input
+        name="creatorid"
+        id="creatorid"
+        hidden
+        value="<%= user.id %>"
+      />
+      
+        <textarea id="commentbox" rows="4" name="commentbox"></textarea>
+        <button type="submit" style="float:right; margin-right: 19px;">post</button>
+      </form>
+      <% } %>
+
+    <% if (comments){%>
     
-      <textarea rows="4" cols="50" name="commentbox"></textarea>
-      <button type="submit" style="float: right; width: 150px; margin-right: 19px;">post</button>
-    </form>
+      <% comments.forEach(comment => { %>
+        <table class="commenttable">
+      <tr>
+        
+        <td style="font-size: 12px;"><%= comment.creator.uname %></td>
+        
+      </tr>
+      <tr><td> <%= comment.description %></td></td></tr>
+      <tr>
+        
+        
+        <td  style="padding-bottom: 23px; font-size: 12px "><%= comment.timestamp %></td>
+        
+        <% if (user){%>
+        
+        <% if (user.id==post.creator.id||user.id==comment.creator.id){%>
+        <td>
+          <form action="/posts/show/<%=post.id%>/deletecomment" method="post">
+            <input
+              name="commentid"
+              id="commentid"
+              hidden
+              value="<%= comment.id %>"
+            />
+            <button type="submit" >Delete</button>
+          </form>
+
+          <% } %>
+          <% } %>
+        </td>
+      </tr>
+    </table>
+    <hr>
+
+      <% }) %>
+    
+    <% } else { %>
+    <p>No comments. Be first to Comment</p>
     <% } %>
-
-  <% if (comments){%>
-  
-    <% comments.forEach(comment => { %>
-      <table>
-    <tr>
-      
-      <td><%= comment.creator.uname %></td>
-      
-    </tr>
-    <tr><td> <%= comment.description %></td></td></tr>
-    <tr>
-      
-       
-      <td><%= comment.timestamp %></td>
-      
-      <% if (user){%>
-       
-      <% if (user.id==post.creator.id||user.id==comment.creator.id){%>
-      <td>
-        <form action="/posts/show/<%=post.id%>/deletecomment" method="post">
-          <input
-            name="commentid"
-            id="commentid"
-            hidden
-            value="<%= comment.id %>"
-          />
-          <button type="submit" style="float: right; width: 150px;">Delete</button>
-        </form>
-
-        <% } %>
-        <% } %>
-      </td>
-    </tr>
-  </table>
-
-    <% }) %>
-   
-  <% } else { %>
-  <p>No comments. Be first to Comment</p>
-  <% } %>
-
+  </div>
  
+</div>
 </div>
