@@ -168,6 +168,17 @@ function addComment(post_id, creator, description) {
   return comment;
 }
 
+function addUser(username, password) {
+  const id = Math.max(...Object.keys(users).map(Number)) + 1;
+  users[id] = {
+    id,
+    uname: username,
+    password,
+  };
+  return users[id];
+}
+
+
 export {
   users,
   posts,
@@ -184,4 +195,5 @@ export {
   getSubs,
   addComment,
   decoratePost,
+  addUser
 };

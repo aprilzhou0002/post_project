@@ -4,10 +4,11 @@
   align-items: flex-start;
 }
 .authOptions a{
-  width:100px;
-  height: 28px;
+  /** modified this */
+  width:150px;
+  height: 36px;
   padding: 0px;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 
@@ -59,4 +60,18 @@
   padding: 0px;
   font-size: 15px;
 }
+
+.post-actions form {
+  display: inline-block;
+  width: 200px;
+  margin-right: 16px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: start; 
+  gap: 16px;
+}
+
+
 
