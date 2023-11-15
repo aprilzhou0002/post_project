@@ -51,7 +51,7 @@ router.get("/show/:postid", async (req, res) => {
 
     const postid = req.params.postid;
     const post = await db.getPost(postid);
-    console.log(post)
+    // console.log(post)
     // console.log(post.comments)
     if (post.comments.length > 0) {
       const updatedComments = post.comments.map((comment) => {

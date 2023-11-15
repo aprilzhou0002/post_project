@@ -26,13 +26,13 @@
 
   <% if (user) { %>
     <div class="vote-buttons">
-      <% const userVotes = post.votes.find(vote => vote.user_id === user.id); %>
+      <% const userVote = (post.votes).find(vote => vote.user_id === user.id); %>
       <% const voteValue = userVote ? userVote.value : 0; %>
   
       <p class="vote-count"><%= post.totalVotes %></p>
       <form action="/posts/vote/<%= post.id %>" method="post">
         <input type="hidden" name="setvoteto" value="1">
-        <% if (voteValue === 1) { %>
+        <% if ( voteValue === 1) { %>
           <button type="submit" style="color: #1095c1;">
             <i class="fas fa-thumbs-up"></i>
           </button>
