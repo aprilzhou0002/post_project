@@ -92,6 +92,7 @@ function decoratePost(post) {
     ...post,
     creator: users[post.creator],
     votes: getVotesForPost(post.id),
+    totalVotes: calculateTotalVotes(post.id),
     comments: Object.values(comments)
       .filter((comment) => comment.post_id === post.id)
       .map((comment) => ({ ...comment, creator: users[comment.creator] })),
@@ -169,6 +170,10 @@ function addComment(post_id, creator, description) {
 }
 
 function addUser(username, password) {
+  const existingUser = Object.values(users).find(user => user.uname === username);
+  if (existingUser) {
+    throw new Error("Username already taken");
+  }
   const id = Math.max(...Object.keys(users).map(Number)) + 1;
   users[id] = {
     id,
@@ -176,6 +181,30 @@ function addUser(username, password) {
     password,
   };
   return users[id];
+}
+
+function addVote(userId, postId, setVoteTo) {
+  const existingVote = votes.find(vote => vote.user_id === userId && vote.post_id === postId);
+
+  if (existingVote) {
+      if (setVoteTo === 0) {
+          const index = votes.indexOf(existingVote);
+          votes.splice(index, 1);
+      } else {
+          existingVote.value = setVoteTo;
+      }
+  } else if (setVoteTo !== 0) {
+      votes.push({
+          user_id: userId,
+          post_id: postId,
+          value: setVoteTo
+      });
+  }
+}
+
+function calculateTotalVotes(postId) {
+  const postVotes = votes.filter(vote => vote.post_id === postId);
+  return postVotes.reduce((total, vote) => total + vote.value, 0);
 }
 
 
@@ -195,5 +224,6 @@ export {
   getSubs,
   addComment,
   decoratePost,
-  addUser
+  addUser,
+  addVote
 };

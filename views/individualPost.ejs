@@ -24,7 +24,32 @@
     </div>
   <% } %>
 
-
+  <% if (user) { %>
+    <div class="vote-buttons">
+      <% const userVote = post.votes.find(vote => vote.user_id === user.id); %>
+      <% const voteValue = userVote ? userVote.value : 0; %>
+  
+      <p class="vote-count"><%= post.totalVotes %></p>
+      <form action="/posts/vote/<%= post.id %>" method="post">
+        <input type="hidden" name="setvoteto" value="<%= voteValue === 1 ? 0 : 1 %>">
+        <button type="submit">
+        <!-- TODO: In style.css, to implement .active-vote -->
+        <!-- <button type="submit" class="<%= voteValue === 1 ? 'active-vote' : '' %>"> -->
+          <i class="fas fa-thumbs-up"></i>
+        </button>
+      </form>
+  
+      <form action="/posts/vote/<%= post.id %>" method="post">
+        <input type="hidden" name="setvoteto" value="<%= voteValue === -1 ? 0 : -1 %>">
+        <button type="submit">
+        <!-- TODO: In style.css, to implement .active-vote -->
+        <!-- <button type="submit" class="<%= voteValue === -1 ? 'active-vote' : '' %>"> -->
+          <i class="fas fa-thumbs-down"></i>
+        </button>
+      </form>
+    </div>
+  <% } %>
+  
   <hr />
   <div class="comments">
     <h4>Comments  <% if (comments){%><%=comments.length%><% } %></h4>

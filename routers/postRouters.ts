@@ -93,9 +93,6 @@ router.post("/show/:postid/deletecomment", (req, res) => {
   // console.log(db.comments)
 });
 
-
-
-
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {
@@ -190,5 +187,25 @@ router.post(
     }
   }
 );
+
+router.post("/vote/:postId", ensureAuthenticated, async (req, res) => {
+  try {
+    const userId = await req.user.id; 
+    const postId = parseInt(req.params.postId);
+    const setVoteTo = parseInt(req.body.setvoteto); 
+    
+    db.addVote(userId, postId, setVoteTo);
+
+    // refresh the current page to see the new votes
+    const referer = req.get('Referer');
+    if (referer && referer.endsWith('/posts')) {
+      res.redirect('/posts');
+    } else {
+      res.redirect(`/posts/show/${postId}`);
+    }
+} catch (error) {
+    res.status(500).send(error.message);
+}
+});
 
 export default router;

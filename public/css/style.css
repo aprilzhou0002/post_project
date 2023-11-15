@@ -73,5 +73,30 @@
   gap: 16px;
 }
 
+.vote-buttons {
+  display: flex;
+  align-items: baseline;
+}
+
+.vote-buttons .vote-count {
+  margin-right: 20px;
+}
+
+.vote-buttons button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333; 
+}
+
+.vote-buttons button:focus {
+  outline: none;
+}
+
+.active-vote{
+  color: #1095c1
+}
+
 
 
