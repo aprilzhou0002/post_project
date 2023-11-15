@@ -31,19 +31,15 @@
   
       <p class="vote-count"><%= post.totalVotes %></p>
       <form action="/posts/vote/<%= post.id %>" method="post">
-        <input type="hidden" name="setvoteto" value="<%= voteValue === 1 ? 0 : 1 %>">
-        <button type="submit">
-        <!-- TODO: In style.css, to implement .active-vote -->
-        <!-- <button type="submit" class="<%= voteValue === 1 ? 'active-vote' : '' %>"> -->
+        <input type="hidden" name="setvoteto" value="<%= voteValue === 1 %>">
+        <button type="submit" class="<%= post.votes.find(vote => vote.user_id === user.id && vote.value === +1) ? 'active-vote' : '' %>">
           <i class="fas fa-thumbs-up"></i>
         </button>
       </form>
   
       <form action="/posts/vote/<%= post.id %>" method="post">
-        <input type="hidden" name="setvoteto" value="<%= voteValue === -1 ? 0 : -1 %>">
-        <button type="submit">
-        <!-- TODO: In style.css, to implement .active-vote -->
-        <!-- <button type="submit" class="<%= voteValue === -1 ? 'active-vote' : '' %>"> -->
+        <input type="hidden" name="setvoteto" value="<%= voteValue === -1 %>">       
+        <button type="submit" class="<%= post.votes.find(vote => vote.user_id === user.id && vote.value === -1) ? 'active-vote' : '' %>">
           <i class="fas fa-thumbs-down"></i>
         </button>
       </form>

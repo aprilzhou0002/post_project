@@ -11,6 +11,9 @@ router.get("/", async (req, res) => {
   // so that we can access to creator, votes and comments
   const posts = rawPosts.map(db.decoratePost);
 
+  // Promise stuff
+  // const user = req.user;
+  // console.log(user);
   const user = await req.user;
   res.render("posts", { posts, user, home: false });
 });
@@ -190,13 +193,13 @@ router.post(
 
 router.post("/vote/:postId", ensureAuthenticated, async (req, res) => {
   try {
-    const userId = await req.user.id; 
+    const user = await req.user; 
+    const userId = user?.id;
     const postId = parseInt(req.params.postId);
     const setVoteTo = parseInt(req.body.setvoteto); 
-    
+
     db.addVote(userId, postId, setVoteTo);
 
-    // refresh the current page to see the new votes
     const referer = req.get('Referer');
     if (referer && referer.endsWith('/posts')) {
       res.redirect('/posts');
@@ -207,5 +210,6 @@ router.post("/vote/:postId", ensureAuthenticated, async (req, res) => {
     res.status(500).send(error.message);
 }
 });
+
 
 export default router;

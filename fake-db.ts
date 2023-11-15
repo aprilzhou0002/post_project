@@ -187,12 +187,11 @@ function addVote(userId, postId, setVoteTo) {
   const existingVote = votes.find(vote => vote.user_id === userId && vote.post_id === postId);
 
   if (existingVote) {
-      if (setVoteTo === 0) {
-          const index = votes.indexOf(existingVote);
-          votes.splice(index, 1);
-      } else {
-          existingVote.value = setVoteTo;
-      }
+    if (existingVote.value === setVoteTo) {
+      existingVote.value -= setVoteTo;
+    } else {
+        existingVote.value = setVoteTo;
+    }
   } else if (setVoteTo !== 0) {
       votes.push({
           user_id: userId,
@@ -205,6 +204,11 @@ function addVote(userId, postId, setVoteTo) {
 function calculateTotalVotes(postId) {
   const postVotes = votes.filter(vote => vote.post_id === postId);
   return postVotes.reduce((total, vote) => total + vote.value, 0);
+}
+
+// not use
+function getUpdatedVoteCount(postId: number): number {
+  return calculateTotalVotes(postId);
 }
 
 
@@ -225,5 +229,6 @@ export {
   addComment,
   decoratePost,
   addUser,
-  addVote
+  addVote,
+  getUpdatedVoteCount
 };
