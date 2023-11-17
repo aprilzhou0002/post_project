@@ -97,6 +97,27 @@ router.post("/show/:postid/deletecomment", (req, res) => {
   // console.log(db.comments)
 });
 
+router.post("/show/:postid/Editcomment", (req, res) => {
+  const postid = req.params.postid;
+  const edittedcomment=req.body.edittedcomment;
+  const commentid = req.body.commentid;
+  //  console.log(edittedcomment)
+  db.editComment(edittedcomment,commentid)
+  res.redirect(`/posts/show/${postid}`);
+  // console.log(db.comments)
+});
+
+router.post("/show/:postid/reply-edit", (req, res) => {
+  const postid = req.params.postid;
+  const edittedrply=req.body.edittedrply;
+  const rplyid = req.body.rplyid;
+  //  console.log(edittedcomment)
+  db.editrply(edittedrply,rplyid,timedate(Date.now()))
+  res.redirect(`/posts/show/${postid}`);
+  // console.log(db.comments)
+});
+
+
 router.get("/edit/:postid", ensureAuthenticated, async (req, res) => {
   // ⭐ TODO
   try {

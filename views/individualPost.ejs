@@ -85,14 +85,15 @@
                   <td style="font-size: 12px;"><%= comment.creator.uname %></td>
                   
                 </tr>
-                <tr>
-                  <td> <%= comment.description %></td>
-                  <td  style=" font-size: 12px; float: right; "><%= comment.timestamp %></td>
+                <tr id="commentEdit">
+                  <td > <%= comment.description %></td>
+                 
+                  <td style=" font-size: 12px; float: right; "><%= comment.timestamp %></td>
               
                   <% if (user){%>
                   
                       <% if (user.id==post.creator.id||user.id==comment.creator.id){%>
-                      <td style="width: 150px;">
+                      <td style="width: 210px;">
                         <form action="/posts/show/<%=post.id%>/deletecomment" method="post">
                           <input
                             name="commentid"
@@ -102,12 +103,25 @@
                           />
                           <button type="submit" >Delete</button>
                         </form>
+                       
+
                         <% } %>
 
                         <button onclick="showbox('rplybox')">rply</button>
-                     
+                        <% if (user.id==comment.creator.id){%>
+                        <button onclick=" showbox('commentEdit');showbox('Editpressed')">Edit</button>
+                        <% } %>
                       </td>
-                    </tr>
+                </tr>
+                <tr id="Editpressed" style="display: none;">
+                  <td style="width: 25.7%;">
+                    <form style="display: flex;" action="/posts/show/<%=post.id%>/Editcomment" method="post">
+                      <input value="<%= comment.description %>" style="height: 50px; font-size: 15px;" name="edittedcomment" id="edittedcomment">
+                      <input value="<%= comment.id %>"" name="commentid" id="commentid" hidden>
+                      <button type="submit">Edit IT</button>
+                    </form>
+                  </td>
+                </tr>
                   
                   <% } %>
                   <% (post.rplies).forEach(replydata => { %>
@@ -120,15 +134,24 @@
                       <!-- <td style="vertical-align:middle; text-align: center;"></td> -->
                       <!-- <td> -->
                        <p style="padding-right: 2px;"> <%=replydata.timestamp%></p>
-                      <% if (user && (replydata.creator.id==user.id||post.creator.id==user.id)){%><form><button type="submit">delete</button></form><form><button type="submit">Edit</button></form><% } %>
-                    
+                      <% if (user && (replydata.creator.id==user.id||post.creator.id==user.id)){%><form><button type="submit">delete</button></form>
+                      <% if (user.id==replydata.creator.id){%>
+                      <button onclick="showbox('rplydiv'); showbox('showRplyEdit')">Edit</button><% } %>
+                      <% } %>
+                      </td>
+                      <td id="showRplyEdit" style="margin-left: 80px;display: none;width: 110.7%;">
+                        <form style="display: flex;" action="/posts/show/<%=post.id%>/reply-edit" method="post">
+                        <input value="<%=replydata.description%>" style="height: 35px;padding-top: 2px;font-size: 15px;padding-bottom: 2px;" id="edittedrply" name="edittedrply">
+                        <input value="<%=replydata.id%>" hidden id="rplyid" name="rplyid">
+                        <button type="submit" style="width: 90px;" >Edit Rply</button>
+                      </form>
                       </td>
                   </tr>
                     <% } %>
                     <% }) %>
 
                     <% if (user){%>
-                            <tr id="rplybox"><td>
+                            <tr id="rplybox" style="display: none;"><td>
                               <form style="display: flex;" action="/posts/show/<%=post.id%>/reply" method="post">
                               <input style="margin-left: 200px;font-size: 15px;height: 36px;width: 402px;" type="text" id="rplyid" name="rplyid">
                               <input
@@ -161,11 +184,16 @@
 <script>
 
 function showbox(i){
+  
+ 
                           var x = document.getElementById(i);
                           if (x.style.display === 'none') {
                               x.style.display = 'block';
                           } else {
                             x.style.display = 'none';
                           }
+                        
+                        
                         }
+
 </script>

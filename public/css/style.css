@@ -19,7 +19,8 @@
 
 #commentbox{
   width: 91%;
-  height:50px
+  height:50px;
+  font-size: 15px;
 
 }
 
@@ -99,9 +100,7 @@
   color: #1095c1
 }
 
-#rplybox{
-  display: none;
-}
+
 
 #rplydiv{
 display: flex;
@@ -114,3 +113,6 @@ margin-left: 180px;
   padding-top: 8px;
   margin-bottom: 0px;
 }
+
+
+

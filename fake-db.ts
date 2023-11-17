@@ -194,6 +194,30 @@ function addComment(post_id, creator, description) {
   return comment;
 }
 
+function editComment(data,commentid){
+
+var temp=comments[commentid]
+// console.log(temp)
+
+  temp["description"]=data;
+  temp["timestamp"]=Date.now();
+  comments[commentid]=temp
+  console.log(comments[commentid])
+}
+
+
+function editrply(data,rplyid,time){
+
+  var temp=rply[rplyid]
+  // console.log(temp)
+  
+    temp["description"]=data;
+    temp["timestamp"]=time;
+    rply[rplyid]=temp
+    console.log( rply[rplyid])
+  }
+
+
 function addUser(username, password) {
   const existingUser = Object.values(users).find(user => user.uname === username);
   if (existingUser) {
@@ -272,8 +296,10 @@ export {
   getSubs,
   addComment,
   addrply,
+  editrply,
   decoratePost,
   addUser,
   addVote,
-  getUpdatedVoteCount
+  getUpdatedVoteCount,
+  editComment
 };
