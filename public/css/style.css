@@ -59,6 +59,7 @@
   height: 28px;
   padding: 0px;
   font-size: 15px;
+  margin: 5px;
 }
 
 .post-actions form {
@@ -98,5 +99,18 @@
   color: #1095c1
 }
 
+#rplybox{
+  display: none;
+}
 
+#rplydiv{
+display: flex;
+margin-left: 180px;
+}
 
+#rplydiv p{
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 8px;
+  margin-bottom: 0px;
+}

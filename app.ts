@@ -32,6 +32,19 @@ declare global {
       id: number;
       post_id: number;
       creator: number;
+      commentid:number;
+      description: string;
+      timestamp: number;
+    }
+  }
+}
+
+declare global {
+  namespace Express {
+    interface Rply {
+      id: number;
+      post_id: number;
+      creator: number;
       description: string;
       timestamp: number;
     }

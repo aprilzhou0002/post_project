@@ -64,6 +64,30 @@ const votes = [
   { user_id: 3, post_id: 102, value: -1 },
 ];
 
+
+const rply: { [key: number]: Express.Rply } = {
+  10001: {
+    id: 10001,
+    post_id: 102,
+    creator: 1,
+    commentid:9001,
+    description: "rply1",
+    timestamp: "2023-11-16 3:53:47 p.m.",
+  },
+  10002: {
+    id: 10001,
+    post_id: 101,
+    creator: 1,
+    commentid:9001,
+    description: "Test id",
+    timestamp: "2023-11-16 3:53:47 p.m.",
+  },
+};
+
+
+
+
+
 function debug() {
   console.log("==== DB DEBUGING ====");
   console.log("users", users);
@@ -96,6 +120,7 @@ function decoratePost(post) {
     comments: Object.values(comments)
       .filter((comment) => comment.post_id === post.id)
       .map((comment) => ({ ...comment, creator: users[comment.creator] })),
+    rplies:Object.values(rply).filter((rpl)=>rpl.post_id===post.id).map((rpl)=>({...rpl,creator:users[rpl.creator]}))
   };
   return post;
 }
@@ -212,11 +237,30 @@ function getUpdatedVoteCount(postId: number): number {
 }
 
 
+function addrply(post_id, creator,comment, description,time) {
+  let id = Math.max(...Object.keys(rply).map(Number)) + 1;
+  let rplydata = {
+    id,
+    post_id: Number(post_id),
+    creator: Number(creator),
+    commentid:comment,
+    description,
+    timestamp: time,
+  };
+  rply[id] = rplydata;
+  // console.log(rplydata)
+  return rplydata;
+}
+
+
+
+
 export {
   users,
   posts,
   comments,
   votes,
+  rply,
   debug,
   getUser,
   getUserByUsername,
@@ -227,6 +271,7 @@ export {
   deletePost,
   getSubs,
   addComment,
+  addrply,
   decoratePost,
   addUser,
   addVote,

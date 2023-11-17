@@ -5,6 +5,12 @@ import * as db from "../fake-db";
 const router = express.Router();
 import { ensureAuthenticated } from "../middleware/checkAuth";
 
+
+function timedate(timestamp) {
+  var d = new Date(timestamp);
+  return d.toLocaleDateString() + " " + d.toLocaleTimeString();
+}
+
 router.get("/", async (req, res) => {
   const rawPosts = await database.getPosts(20);
   // encapsulate the post data as the way declared in fake-db.decoratePost
@@ -41,10 +47,7 @@ router.post("/create", ensureAuthenticated, async (req, res) => {
 
 router.get("/show/:postid", async (req, res) => {
   // ⭐ TODO
-  function timedate(timestamp) {
-    var d = new Date(timestamp);
-    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
-  }
+  
 
   try {
     const user = await req.user;
@@ -61,6 +64,7 @@ router.get("/show/:postid", async (req, res) => {
       });
       // console.log(updatedComments)
       res.render("individualPost", {
+        
         post,
         time: timedate(post.timestamp),
         comments: updatedComments,
@@ -206,6 +210,22 @@ router.post("/vote/:postId", ensureAuthenticated, async (req, res) => {
 } catch (error) {
     res.status(500).send(error.message);
 }
+});
+
+
+
+router.post("/show/:postid/reply", (req, res) => {
+  const postid = req.params.postid;
+  const userid = req.body.userid;
+  
+  const commentid = req.body.commentid;
+  const rplyid = req.body.rplyid;
+  
+  const post = db.getPost(postid);
+  console.log(post)
+  db.addrply(postid,userid,commentid,rplyid,timedate(Date.now()));
+  res.redirect(`/posts/show/${postid}`);
+  // console.log(db.rply)
 });
 
 
