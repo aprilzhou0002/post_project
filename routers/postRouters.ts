@@ -90,9 +90,26 @@ router.get("/show/:postid", async (req, res) => {
 
 router.post("/show/:postid/deletecomment", (req, res) => {
   const postid = req.params.postid;
-  const commentid = req.body.commentid;
+  const comntid = req.body.commentid;
+  console.log(db.getPost(postid))
+  Object.keys(db.rply).forEach(element => {
+    const temp=db.rply[element]
+    if(temp["commentid"]==comntid){
+      delete db.rply[element];
+    }
+    
+  });
+  console.log(db.getPost(postid))
+  delete db.comments[comntid];
+  res.redirect(`/posts/show/${postid}`);
+  // console.log(db.comments)
+});
 
-  delete db.comments[commentid];
+router.post("/show/:postid/delete-rply", (req, res) => {
+  const postid = req.params.postid;
+  const rplyid = req.body.rplyid;
+
+  delete db.rply[rplyid];
   res.redirect(`/posts/show/${postid}`);
   // console.log(db.comments)
 });
@@ -239,14 +256,15 @@ router.post("/show/:postid/reply", (req, res) => {
   const postid = req.params.postid;
   const userid = req.body.userid;
   
-  const commentid = req.body.commentid;
+  const commentid = parseInt(req.body.commentid);
   const rplyid = req.body.rplyid;
   
   const post = db.getPost(postid);
-  console.log(post)
+ 
   db.addrply(postid,userid,commentid,rplyid,timedate(Date.now()));
   res.redirect(`/posts/show/${postid}`);
   // console.log(db.rply)
+  // console.log(post)
 });
 
 

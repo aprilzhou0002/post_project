@@ -102,12 +102,9 @@
 
 
 
-#rplydiv{
-display: flex;
-margin-left: 180px;
-}
 
-#rplydiv p{
+
+.rplydiv p{
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 8px;
