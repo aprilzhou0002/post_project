@@ -115,9 +115,9 @@
           <% (post.rplies).forEach(replydata => { %>
             <% if (replydata.commentid==comment.id){%>
               <tr>
-                <td id="rplydiv<%=j%>" class="rplydiv" style="display: flex; margin-left: 180px;">
-                  <p style="font-size: 15px; width:40%; height: 40px;"><%=replydata.description%></p>
+                <td id="rplydiv<%=j%>" class="rplydiv" style="display: flex; margin-left: 16px;">
                   <p style="font-size: 12px; padding-right: 2px;"><%=replydata.creator.uname%></p>
+                  <p style="font-size: 15px; width:40%; height: 40px;"><%=replydata.description%></p>
                   <p style="padding-right: 2px;"> <%=replydata.timestamp%></p>
                   <% if (user && (replydata.creator.id==user.id||post.creator.id==user.id)){%>
                     <form action="/posts/show/<%=post.id%>/delete-rply" method="post">

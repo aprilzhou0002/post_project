@@ -12,7 +12,8 @@ function timedate(timestamp) {
 }
 
 router.get("/", async (req, res) => {
-  const rawPosts = await database.getPosts(20);
+  const sortBy = req.query.sort || 'newest'; 
+  const rawPosts = await database.getPosts(20, null, sortBy);
   // encapsulate the post data as the way declared in fake-db.decoratePost
   // so that we can access to creator, votes and comments
   const posts = rawPosts.map(db.decoratePost);

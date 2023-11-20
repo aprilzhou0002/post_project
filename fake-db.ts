@@ -21,6 +21,16 @@ const users: { [key: number]: Express.User } = {
     uname: "leerob",
     password: "123",
   },
+  5: { 
+    id: 5, 
+    uname: "max", 
+    password: "max123" 
+  },
+  6: { 
+    id: 6, 
+    uname: "sara", 
+    password: "sara123" 
+  },
 };
 
 const posts: { [key: number]: Express.Post } = {
@@ -44,6 +54,24 @@ const posts: { [key: number]: Express.Post } = {
     subgroup: "coding",
     timestamp: 1642611742010,
   },
+  103: {
+    id: 103,
+    title: "Exploring the New Features of React 18",
+    link: "https://reactjs.org/blog/2022/03/29/react-v18.html",
+    description: "A deep dive into the latest React version and its capabilities.",
+    creator: 5,
+    subgroup: "programming",
+    timestamp: 1650000000000,
+  },
+  104: {
+    id: 104,
+    title: "The Best Hiking Trails in the Pacific Northwest",
+    link: "https://hikingtrails.com/pnw",
+    description: "Discover breathtaking trails and scenic views in the Pacific Northwest.",
+    creator: 6,
+    subgroup: "outdoors",
+    timestamp: 1650500000000,
+  },
 };
 
 const comments: { [key: number]: Express.Comment } = {
@@ -54,6 +82,20 @@ const comments: { [key: number]: Express.Comment } = {
     description: "Actually I learned a lot :pepega:",
     timestamp: 1642691742010,
   },
+  9002: {
+    id: 9002,
+    post_id: 103,
+    creator: 2,
+    description: "Really excited about concurrent features!",
+    timestamp: 1650100000000,
+  },
+  9003: {
+    id: 9003,
+    post_id: 104,
+    creator: 3,
+    description: "Can't wait to try these trails!",
+    timestamp: 1650600000000,
+  },
 };
 
 // const votes: Array<{ user_id: number; post_id: number; value: number }> = [
@@ -62,6 +104,8 @@ const votes = [
   { user_id: 3, post_id: 101, value: +1 },
   { user_id: 4, post_id: 101, value: +1 },
   { user_id: 3, post_id: 102, value: -1 },
+  { user_id: 5, post_id: 103, value: +1 },
+  { user_id: 6, post_id: 104, value: +1 },
 ];
 
 
@@ -82,11 +126,23 @@ const rply: { [key: number]: Express.Rply } = {
     description: "Test id",
     timestamp: "2023-11-16 3:53:47 p.m.",
   },
+  10003: {
+    id: 10003,
+    post_id: 103,
+    creator: 4,
+    commentid: 9002,
+    description: "I'm also looking forward to it!",
+    timestamp: "2023-11-17 10:00:00 a.m.",
+  },
+  10004: {
+    id: 10004,
+    post_id: 104,
+    creator: 5,
+    commentid: 9003,
+    description: "These trails are amazing, highly recommend!",
+    timestamp: "2023-11-18 2:30:00 p.m.",
+  },
 };
-
-
-
-
 
 function debug() {
   console.log("==== DB DEBUGING ====");
@@ -128,15 +184,31 @@ function decoratePost(post) {
 /**
  * @param {*} n how many posts to get, defaults to 5
  * @param {*} sub which sub to fetch, defaults to all subs
+ * @param {*} sortBy how to sort the posts ('newest', 'hot', 'top'), defaults to 'newest'
  */
-function getPosts(n = 5, sub) {
+function getPosts(n = 5, sub, sortBy = 'newest') {
   let allPosts = Object.values(posts);
+
   if (sub) {
     allPosts = allPosts.filter((post) => post.subgroup === sub);
   }
-  allPosts.sort((a, b) => b.timestamp - a.timestamp);
+
+  switch (sortBy) {
+    case 'hot':
+      allPosts.sort((a, b) => calculateTotalComments(b.id) - calculateTotalComments(a.id));
+      break;
+
+    case 'top':
+      allPosts.sort((a, b) => (calculateTotalVotes(b.id) - calculateTotalVotes(a.id)));
+      break;
+    case 'newest':
+    default:
+      allPosts.sort((a, b) => (b.timestamp - a.timestamp));
+  }
+
   return allPosts.slice(0, n);
 }
+
 
 function getPost(id) {
   return decoratePost(posts[id]);
@@ -255,11 +327,9 @@ function calculateTotalVotes(postId) {
   return postVotes.reduce((total, vote) => total + vote.value, 0);
 }
 
-// not use
-function getUpdatedVoteCount(postId: number): number {
-  return calculateTotalVotes(postId);
+function calculateTotalComments(postId) {
+  return Object.values(comments).filter(comment => comment.post_id === postId).length;
 }
-
 
 function addrply(post_id, creator,comment, description,time) {
   let id = Math.max(...Object.keys(rply).map(Number)) + 1;
@@ -300,6 +370,5 @@ export {
   decoratePost,
   addUser,
   addVote,
-  getUpdatedVoteCount,
   editComment
 };

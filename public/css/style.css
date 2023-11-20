@@ -101,9 +101,6 @@
 }
 
 
-
-
-
 .rplydiv p{
   padding-left: 20px;
   padding-right: 20px;
@@ -111,5 +108,14 @@
   margin-bottom: 0px;
 }
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rating {
+  margin-left: auto; 
+}
 
 
